@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>
+		</title>
+	</head>
+	<body>
+    {% block content %}
+		<form id="signup" method="post" action="{% url 'signup' %}">{% csrf_token %}
+			<div class="input-group">
+			{{ userform.username }}<br>
+			{{ userform.email }}<br>
+			{{ userform.password }}<br>
+			<button type="submit" id="submit" class="button big default">회원가입</button>
+		</div>
+        </form>
+        {% endblock %}
+	</body>
+</html>
