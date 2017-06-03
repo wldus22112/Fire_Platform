@@ -116,7 +116,7 @@ class DjangoSession(models.Model):
 
 
 class Test(models.Model):
-    filepath = models.CharField(primary_key=True, max_length=200)
+    filename = models.CharField(primary_key=True, max_length=200)
     id = models.CharField(max_length=45, blank=True, null=True)
     type = models.CharField(max_length=45, blank=True, null=True)
     datetime = models.DateTimeField(blank=True, null=True)
@@ -130,4 +130,5 @@ class Test(models.Model):
 class SignUser(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True)
     mac_add = models.CharField(max_length=100)
+
 

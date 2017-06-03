@@ -16,7 +16,7 @@ urlpatterns = [
         url(r'^accounts/login/$', login, name='login'),
         url(r'^logout/$', logout, {'next_page': '/accounts/login/', }, name='logout_url'),
         url(r'^signup/$', views.signup, name='signup'),
-        url(r'^signup_ok/$',views.signup_ok, name='signup_ok'),
+        url(r'^mac/(?P<pk>\d+)/$',views.mac, name='mac'),
         url(r'^record/$',views.record, name='record'),
 ]
 

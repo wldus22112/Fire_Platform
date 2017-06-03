@@ -16,7 +16,8 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.template import Context
 from django.template.loader import get_template
-from .models import Test
+from .models import Test, SignUser
+from django.shortcuts import get_object_or_404
 
 
 def main_index(request):
@@ -27,15 +28,24 @@ def signup(request):
     to register users
     """
     if request.method == "POST":
-        userform = RegisterForm(request.POST)
-        if userform.is_valid():
-            new_user = User.objects.create_user(**userform.cleaned_data)
-            return render(request, "registration/signup_ok.html", {"userform": userform,})
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        if User.objects.filter(username__exact=username).count():
+            return HttpResponse('duplicate id', 400)
+        else:
+            user = User.objects.create_user(username, password=password)
+            user.first_name = request.POST.get('name', '')
+            user.save()
+            signuser = SignUser()
+            signuser.user = user
+            signuser.save()
+            macform = MacForm()
+            return render(request, "registration/signup_next.html")
 
     elif request.method =="GET":
         userform = RegisterForm()
 
-    return render(request, "registration/signup.html", {"userform": userform,})
+    return render(request, "registration/signup.html", {"userform": userform})
 
 
 def login(request):
@@ -51,20 +61,23 @@ def login(request):
             return HttpResponse('로그인 실패. 다시 시도 해보세요.')
     else:
         form = LoginForm()
-        return render(request, 'registration/signup_ok.html', {'form': form})
+        return render(request, 'registration/mac.html', {'form': form})
 
 
-def signup_ok(request):
+def mac(request, pk):
+    signUser = get_object_or_404(SignUser, pk=pk)
     if request.method == "POST":
-        form = MacForm(request.POST)
-        if form.is_valid():
-            form.id = request.id
-            form.save()
-            return render(request,'main/index.html', {"form": form})
+        macform = MacForm(request.POST, instance=signUser)
+        if macform.is_valid():
+            signUser = macform.save(commit=False)
+            signUser.user = request.user
+            macform.save()
+            return render(request,'main/index.html', {"macform": macform})
     else:
-        form= MacForm()
-    return render(request,  'registration/signup_ok.html', {"form": form})
+        macform= MacForm(instance=signUser)
+    return render(request, 'registration/mac.html', {"macform": macform})
 
 def record(request):
     test = Test.objects.all()
     return render(request, 'fire/record.html',  {'test': test})
+

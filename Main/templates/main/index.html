@@ -27,10 +27,7 @@
 	<body class="landing">
 
 		<!-- Header -->
-			<header id="header" class="alt">
-				<h1><a href="index.html">Retrospect</a></h1>
-				<a href="#nav">Menu</a>
-			</header>
+
 
 		<!-- Nav -->
 			<nav id="nav">
@@ -46,14 +43,18 @@
 				<i class="icon fa-fire"></i>
 				<h2>Fire Detection Platform</h2>
 				<p>Capstone Design Project</p>
-                 {% if user.is_authenticated %}
+                 {% if not user.is_authenticated %}
 				<ul class="actions">
 					<li><a href="{% url 'login' %}" class="button big special">Login</a></li>
                     <li><a href="{% url 'signup' %}" class="button big default">Sign Up</a></li>
 				</ul>
                 {% endif %}
-            {% if not user.is_authenticated %}
+            {% if user.is_authenticated %}
+                <ul class="actions">
                  <li><a href="{% url 'record' %}" class="button big special">My Record</a></li>
+                  <li><a href="{% url 'mac' pk=user.id %}" class="button big ">My Page</a></li>
+                  <li><a href="{% url 'logout_url' %}" class="button big alt">Logout</a></li>
+                </ul>
              {% endif %}
 			</section>
 
