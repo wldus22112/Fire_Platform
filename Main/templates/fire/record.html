@@ -20,7 +20,7 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>File NAme</th>
+                                <th>Data</th>
                                 <th>ID</th>
                                 <th>Type</th>
                                 <th>Date Time</th>
@@ -31,7 +31,7 @@
                                  {% for test in test %}
 							<tr>
 
-                                <td><a href="{{ test.filename }}">{{ test.filename }}</a></td>
+                                <td><a href="{{ test.fileurl }}">{{ test.filename }}</a></td>
                                  <td>  {{ test.id }}</td>
                                  <td>  {{ test.type }}</td>
                                  <td>  {{ test.datetime }}</td>

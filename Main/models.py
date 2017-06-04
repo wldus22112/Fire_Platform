@@ -121,6 +121,7 @@ class Test(models.Model):
     type = models.CharField(max_length=45, blank=True, null=True)
     datetime = models.DateTimeField(blank=True, null=True)
     lastupdated = models.DateTimeField(blank=True, null=True)
+    fileurl = models.CharField(blank=True, null=True, max_length=200)
 
     class Meta:
         managed = False
