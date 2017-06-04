@@ -18,6 +18,7 @@ from django.template import Context
 from django.template.loader import get_template
 from .models import Test, SignUser
 from django.shortcuts import get_object_or_404
+from django.core.urlresolvers import reverse
 
 
 def main_index(request):
